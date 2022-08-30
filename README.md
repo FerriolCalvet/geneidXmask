@@ -12,7 +12,7 @@ Using the [Nexflow tutorial for the Elixir workflow workshop](https://nextflow-i
 2. Receive the FASTA file, the parameter file and the set of proteins to use as a reference as input in the params.config file.
 3. Uncompress and index the FASTA file.
 
-4. *MISSING: RepeatMasking!!*
+4. RepeatMasking: using the nf-core/genomeannotator masking workflow.
 
 5. Create the protein database for DIAMOND to use it as a source.
 6. Align the provided genome against the database created using DIAMOND BLASTx flavour.
