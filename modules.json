@@ -1,0 +1,14 @@
+{
+    "name": "nf-core/genomeannotator",
+    "homePage": "https://github.com/nf-core/genomeannotator",
+    "repos": {
+        "nf-core/modules": {
+            "custom/dumpsoftwareversions": {
+                "git_sha": "e745e167c1020928ef20ea1397b6b4d230681b4d"
+            },
+            "gunzip": {
+                "git_sha": "e745e167c1020928ef20ea1397b6b4d230681b4d"
+            }
+        }
+    }
+}
