@@ -3,7 +3,7 @@
 */
 
 // Parameter definitions
-params.CONTAINER = "ferriolcalvet/python-modules"
+// params.CONTAINER = "ferriolcalvet/geneidx"
 // params.OUTPUT = "geneid_output"
 // params.LABEL = ""
 
@@ -20,7 +20,7 @@ process getRepeatFasta {
     // publishDir(params.OUTPUT, mode : 'copy', pattern : '*.gff3')
 
     // indicates to use as a container the value indicated in the parameter
-    container "ferriolcalvet/python-modules"
+    container "ferriolcalvet/geneidx"
 
     // indicates to use as a label the value indicated in the parameter
     label (params.LABEL)
@@ -166,7 +166,7 @@ process downloadProtFasta {
     publishDir(params.OUTPUT, mode : 'copy', pattern : '*.fa.gz')
 
     // indicates to use as a container the value indicated in the parameter
-    container "ferriolcalvet/python-modules"
+    container "ferriolcalvet/geneidx"
 
     // indicates to use as a label the value indicated in the parameter
     label (params.LABEL)

@@ -1,3 +1,6 @@
+.nextflow
+.nextflow.log*
 .nextflow*
 work
 *_GBX
+output

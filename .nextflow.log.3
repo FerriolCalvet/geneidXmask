@@ -1,416 +1,129 @@
-Jul-28 11:29:45.449 [main] DEBUG nextflow.cli.Launcher - $> nextflow run main.nf -profile docker --assembly data/SampleGenome.fa --rm_lib assets/repeatmasker/repeats.fa --outdir ou
-Jul-28 11:29:45.538 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 21.10.4
-Jul-28 11:29:45.559 [main] INFO  nextflow.cli.CmdRun - Launching `main.nf` [serene_agnesi] - revision: 0e80d69c68
-Jul-28 11:29:45.572 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting/nextflow.config
-Jul-28 11:29:45.573 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting/nextflow.config
-Jul-28 11:29:45.591 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `docker`
-Jul-28 11:29:46.556 [main] DEBUG nextflow.config.ConfigBuilder - Available config profiles: [debug, shifter, charliecloud, conda, singularity, docker, podman]
-Jul-28 11:29:46.595 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; plugins-dir=/home/vant/.nextflow/plugins
-Jul-28 11:29:46.596 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
-Jul-28 11:29:46.606 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
-Jul-28 11:29:46.607 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
-Jul-28 11:29:46.610 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.4.1 in 'deployment' mode
-Jul-28 11:29:46.619 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
-Jul-28 11:29:46.619 [main] DEBUG nextflow.plugin.PluginUpdater - Installing plugin nf-tower version: 1.3.0
-Jul-28 11:29:46.624 [main] INFO  org.pf4j.AbstractPluginManager - Plugin 'nf-tower@1.3.0' resolved
-Jul-28 11:29:46.624 [main] INFO  org.pf4j.AbstractPluginManager - Start plugin 'nf-tower@1.3.0'
-Jul-28 11:29:46.629 [main] DEBUG nextflow.plugin.BasePlugin - Plugin started nf-tower@1.3.0
-Jul-28 11:29:46.672 [main] DEBUG nextflow.Session - Session uuid: a4b77e58-20f4-45eb-a4e0-de4be4be25cb
-Jul-28 11:29:46.673 [main] DEBUG nextflow.Session - Run name: serene_agnesi
-Jul-28 11:29:46.673 [main] DEBUG nextflow.Session - Executor pool size: 8
-Jul-28 11:29:46.698 [main] DEBUG nextflow.cli.CmdRun - 
-  Version: 21.10.4 build 5656
-  Created: 30-11-2021 16:09 UTC (17:09 CEST)
-  System: Linux 5.13.0-52-generic
-  Runtime: Groovy 3.0.9 on OpenJDK 64-Bit Server VM 11.0.15+10-Ubuntu-0ubuntu0.20.04.1
-  Encoding: UTF-8 (UTF-8)
-  Process: 1319668@vant-EDGE2 [127.0.1.1]
-  CPUs: 8 - Mem: 39 GB (3.1 GB) - Swap: 2 GB (1.4 GB)
-Jul-28 11:29:46.716 [main] DEBUG nextflow.Session - Work-dir: /home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting/work [ext2/ext3]
-Jul-28 11:29:46.728 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
-Jul-28 11:29:46.738 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
-Jul-28 11:29:46.753 [main] DEBUG nextflow.Session - Observer factory: TowerFactory
-Jul-28 11:29:46.798 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 9; maxThreads: 1000
-Jul-28 11:29:46.889 [main] DEBUG nextflow.Session - Session start invoked
-Jul-28 11:29:46.892 [main] DEBUG nextflow.trace.TraceFileObserver - Flow starting -- trace file: /home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting/ou/pipeline_info/execution_trace_2022-07-28_11-29-46.txt
-Jul-28 11:29:46.899 [main] DEBUG nextflow.Session - Using default localLib path: /home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting/lib
-Jul-28 11:29:46.903 [main] DEBUG nextflow.Session - Adding to the classpath library: /home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting/lib
-Jul-28 11:29:46.903 [main] DEBUG nextflow.Session - Adding to the classpath library: /home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting/lib/nfcore_external_java_deps.jar
-Jul-28 11:29:47.584 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
-Jul-28 11:29:49.561 [main] WARN  nextflow.Nextflow - Found unexpected parameters:
-* --stop_pwm: /home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting/data/param-sections/stop_profile.human
-* --donor_pwm: /home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting/data/param-sections/donor_profile.human
-* --acceptor_pwm: /home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting/data/param-sections/acceptor_profile.human
-* --start_pwm: /home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting/data/param-sections/start_profile.human
-* --max_intron_size_geneid: 40000
-* --min_intron_size_geneid: 20
-* --exon_weight: -12
-* --hsp_factor: 0.19
-* --exon_factor: 1.37056
-* --site_factor: 1.51483
-* --no_score: -0.40
-* --min_intron_size: 0
-* --intron_margin: 40
-* --match_ORF_min: 100
-* --match_score_min: 300
-* --taxid: 9606
-* --output: /home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting/output
-* --prot_file: /home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting/data/SampleProtein.fa.gz
-* --dummy_gff: assets/empty.gff3
-* --busco_db_path: null
-* --busco_lineage: null
-Jul-28 11:29:49.562 [main] INFO  nextflow.Nextflow - - [2mIgnore this warning: params.schema_ignore_params = "stop_pwm,donor_pwm,acceptor_pwm,start_pwm,max_intron_size_geneid,min_intron_size_geneid,exon_weight,hsp_factor,exon_factor,site_factor,no_score,min_intron_size,intron_margin,match_ORF_min,match_score_min,taxid,output,prot_file,dummy_gff,busco_db_path,busco_lineage" [0m
-Jul-28 11:29:49.572 [main] INFO  nextflow.Nextflow - 
+Oct-02 18:36:16.888 [main] DEBUG nextflow.cli.Launcher - $> nextflow run main.nf -profile docker --assembly data/SampleGenome.fa --outdir output/ --rm_lib data/GCA_000180735.1.repeatmodeler.fa --prot_file output/proteins/UniRef90.6658.3+.fa.gz
+Oct-02 18:36:16.991 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 22.04.5
+Oct-02 18:36:17.009 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting/nextflow.config
+Oct-02 18:36:17.010 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting/nextflow.config
+Oct-02 18:36:17.034 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `docker`
+Oct-02 18:36:17.291 [main] ERROR nextflow.cli.Launcher - Unable to parse config file: '/home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting/nextflow.config'
 
--[2m----------------------------------------------------[0m-
-                                        [0;32m,--.[0;30m/[0;32m,-.[0m
-[0;34m        ___     __   __   __   ___     [0;32m/,-._.--~'[0m
-[0;34m  |\ | |__  __ /  ` /  \ |__) |__         [0;33m}  {[0m
-[0;34m  | \| |       \__, \__/ |  \ |___     [0;32m\`-._,-`-,[0m
-                                        [0;32m`._,._,'[0m
-[0;35m  GeneidBLASTx v1.0[0m
--[2m----------------------------------------------------[0m-
-[1mCore Nextflow options[0m
-  [0;34mrunName        : [0;32mserene_agnesi[0m
-  [0;34mcontainerEngine: [0;32mdocker[0m
-  [0;34mlaunchDir      : [0;32m/home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting[0m
-  [0;34mworkDir        : [0;32m/home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting/work[0m
-  [0;34mprojectDir     : [0;32m/home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting[0m
-  [0;34muserName       : [0;32mvant[0m
-  [0;34mprofile        : [0;32mdocker[0m
-  [0;34mconfigFiles    : [0;32m/home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting/nextflow.config[0m
+  Compile failed for sources FixedSetSources[name='/groovy/script/ScriptA4FC42752B276DC38EBD0D7818886629/_nf_config_94c61d16']. Cause: org.codehaus.groovy.control.MultipleCompilationErrorsException: startup failed:
+  /groovy/script/ScriptA4FC42752B276DC38EBD0D7818886629/_nf_config_94c61d16: 12: Unexpected input: '{' @ line 12, column 8.
+     params {
+            ^
+  
+  1 error
 
-[1mInput/output options[0m
-  [0;34massembly       : [0;32mdata/SampleGenome.fa[0m
-  [0;34moutdir         : [0;32mou[0m
-  [0;34mrm_lib         : [0;32massets/repeatmasker/repeats.fa[0m
+ch.grengine.except.CompileException: Compile failed for sources FixedSetSources[name='/groovy/script/ScriptA4FC42752B276DC38EBD0D7818886629/_nf_config_94c61d16']. Cause: org.codehaus.groovy.control.MultipleCompilationErrorsException: startup failed:
+/groovy/script/ScriptA4FC42752B276DC38EBD0D7818886629/_nf_config_94c61d16: 12: Unexpected input: '{' @ line 12, column 8.
+   params {
+          ^
 
-[1mParameters annotation module[0m
-  [0;34mmax_intron_size: [0;32m10000[0m
+1 error
 
-[1mMax job request options[0m
-  [0;34mmax_cpus       : [0;32m8[0m
-  [0;34mmax_memory     : [0;32m20.GB[0m
+	at ch.grengine.code.groovy.DefaultGroovyCompiler.compile(DefaultGroovyCompiler.java:278)
+	at ch.grengine.load.DefaultTopCodeCache.getUpToDateCode(DefaultTopCodeCache.java:79)
+	at ch.grengine.load.LayeredClassLoader.loadMainClass(LayeredClassLoader.java:179)
+	at ch.grengine.engine.LayeredEngine.loadMainClass(LayeredEngine.java:199)
+	at ch.grengine.Grengine.loadMainClass(Grengine.java:692)
+	at ch.grengine.BaseGrengine.load(BaseGrengine.java:538)
+	at ch.grengine.BaseGrengine.load(BaseGrengine.java:420)
+	at ch.grengine.BaseGrengine$load.call(Unknown Source)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:47)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:148)
+	at nextflow.config.ConfigParser.loadScript(ConfigParser.groovy:223)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.codehaus.groovy.runtime.callsite.PlainObjectMetaMethodSite.doInvoke(PlainObjectMetaMethodSite.java:43)
+	at org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite$PogoCachedMethodSiteNoUnwrapNoCoerce.invoke(PogoMetaMethodSite.java:193)
+	at org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite.callCurrent(PogoMetaMethodSite.java:61)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(CallSiteArray.java:51)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:171)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:185)
+	at nextflow.config.ConfigParser.parse(ConfigParser.groovy:304)
+	at nextflow.config.ConfigParser$parse$3.call(Unknown Source)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:47)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:139)
+	at nextflow.config.ConfigBuilder.parse0(ConfigBuilder.groovy:433)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.codehaus.groovy.runtime.callsite.PlainObjectMetaMethodSite.doInvoke(PlainObjectMetaMethodSite.java:43)
+	at org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite$PogoCachedMethodSiteNoUnwrapNoCoerce.invoke(PogoMetaMethodSite.java:193)
+	at org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite.callCurrent(PogoMetaMethodSite.java:61)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(CallSiteArray.java:51)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:171)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:194)
+	at nextflow.config.ConfigBuilder.merge0(ConfigBuilder.groovy:419)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.codehaus.groovy.runtime.callsite.PlainObjectMetaMethodSite.doInvoke(PlainObjectMetaMethodSite.java:43)
+	at org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite$PogoCachedMethodSiteNoUnwrapNoCoerce.invoke(PogoMetaMethodSite.java:193)
+	at org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite.callCurrent(PogoMetaMethodSite.java:61)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(CallSiteArray.java:51)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:171)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)
+	at nextflow.config.ConfigBuilder.buildConfig0(ConfigBuilder.groovy:369)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.codehaus.groovy.runtime.callsite.PlainObjectMetaMethodSite.doInvoke(PlainObjectMetaMethodSite.java:43)
+	at org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite$PogoCachedMethodSiteNoUnwrapNoCoerce.invoke(PogoMetaMethodSite.java:193)
+	at org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite.callCurrent(PogoMetaMethodSite.java:61)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(CallSiteArray.java:51)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:171)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:194)
+	at nextflow.config.ConfigBuilder.buildGivenFiles(ConfigBuilder.groovy:317)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.codehaus.groovy.runtime.callsite.PlainObjectMetaMethodSite.doInvoke(PlainObjectMetaMethodSite.java:43)
+	at org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite$PogoCachedMethodSiteNoUnwrapNoCoerce.invoke(PogoMetaMethodSite.java:193)
+	at org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite.callCurrent(PogoMetaMethodSite.java:61)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(CallSiteArray.java:51)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:171)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:185)
+	at nextflow.config.ConfigBuilder.buildConfigObject(ConfigBuilder.groovy:755)
+	at nextflow.config.ConfigBuilder.build(ConfigBuilder.groovy:768)
+	at nextflow.cli.CmdRun.run(CmdRun.groovy:294)
+	at nextflow.cli.Launcher.run(Launcher.groovy:480)
+	at nextflow.cli.Launcher.main(Launcher.groovy:639)
+Caused by: org.codehaus.groovy.control.MultipleCompilationErrorsException: startup failed:
+/groovy/script/ScriptA4FC42752B276DC38EBD0D7818886629/_nf_config_94c61d16: 12: Unexpected input: '{' @ line 12, column 8.
+   params {
+          ^
 
-!! Only displaying parameters that differ from the pipeline defaults !!
--[2m----------------------------------------------------[0m-
-If you use GeneidBLASTx for your analysis please cite:
+1 error
 
-* The nf-core framework
-  https://doi.org/10.1038/s41587-020-0439-x
-
-* Software dependencies
-  https://github.com/GeneidBLASTx/blob/master/CITATIONS.md
--[2m----------------------------------------------------[0m-
-Jul-28 11:29:50.375 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_low` matches labels `process_low` for process with name GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE
-Jul-28 11:29:50.377 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:GAAS_ASSEMBLYFILTERBYSIZE` matches process GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE
-Jul-28 11:29:50.382 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.382 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.386 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
-Jul-28 11:29:50.390 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=8; memory=39 GB; capacity=8; pollInterval=100ms; dumpInterval=5m
-Jul-28 11:29:50.410 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 9; maxThreads: 1000
-Jul-28 11:29:50.462 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_low` matches labels `process_low` for process with name GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_FASTACLEANER
-Jul-28 11:29:50.464 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.464 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.469 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_low` matches labels `process_low` for process with name GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_FASTASTATISTICS
-Jul-28 11:29:50.470 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.471 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.494 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_low` matches labels `process_low` for process with name GENOMEANNOTATOR:REPEATMASKER:FASTASPLITTER
-Jul-28 11:29:50.495 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.495 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.518 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_low` matches labels `process_low` for process with name GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB
-Jul-28 11:29:50.519 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.520 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.545 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_high` matches labels `process_high` for process with name GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_REPEATMASK
-Jul-28 11:29:50.545 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:REPEATMASKER_REPEATMASK` matches process GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_REPEATMASK
-Jul-28 11:29:50.547 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.547 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.561 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_low` matches labels `process_low` for process with name GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_CAT_FASTA
-Jul-28 11:29:50.561 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:REPEATMASKER_CAT_FASTA` matches process GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_CAT_FASTA
-Jul-28 11:29:50.563 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.563 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.577 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.577 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.584 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.584 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.588 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:fourcpus` matches labels `fourcpus` for process with name build_protein_DB:runDIAMOND_makedb
-Jul-28 11:29:50.589 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.589 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.594 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:fourcpus` matches labels `fourcpus` for process with name alignGenome_Proteins:runDIAMOND_getHSPs_GFF
-Jul-28 11:29:50.595 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.595 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.600 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:singlecpu` matches labels `singlecpu` for process with name matchAssessment:Index_fai
-Jul-28 11:29:50.600 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.601 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.606 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:singlecpu` matches labels `singlecpu` for process with name matchAssessment:cds_workflow:mergeMatches
-Jul-28 11:29:50.607 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.607 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.611 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:singlecpu` matches labels `singlecpu` for process with name matchAssessment:cds_workflow:filter_by_score
-Jul-28 11:29:50.612 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.612 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.617 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:singlecpu` matches labels `singlecpu` for process with name matchAssessment:cds_workflow:getFASTA
-Jul-28 11:29:50.618 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.618 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.622 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:singlecpu` matches labels `singlecpu` for process with name matchAssessment:cds_workflow:ORF_finder
-Jul-28 11:29:50.623 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.624 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.630 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:singlecpu` matches labels `singlecpu` for process with name matchAssessment:cds_workflow:updateGFFcoords
-Jul-28 11:29:50.631 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.631 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.635 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:singlecpu` matches labels `singlecpu` for process with name matchAssessment:cds_workflow:getFASTA2
-Jul-28 11:29:50.636 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.636 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.640 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:singlecpu` matches labels `singlecpu` for process with name matchAssessment:getCDS_matrices
-Jul-28 11:29:50.641 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.641 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.645 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:singlecpu` matches labels `singlecpu` for process with name matchAssessment:intron_workflow:summarizeMatches
-Jul-28 11:29:50.646 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.646 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.650 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:singlecpu` matches labels `singlecpu` for process with name matchAssessment:intron_workflow:pyComputeIntrons
-Jul-28 11:29:50.651 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.651 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.656 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:singlecpu` matches labels `singlecpu` for process with name matchAssessment:intron_workflow:removeProtOverlappingIntrons
-Jul-28 11:29:50.657 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.657 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.660 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:singlecpu` matches labels `singlecpu` for process with name matchAssessment:intron_workflow:getFASTA
-Jul-28 11:29:50.661 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.661 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.665 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:singlecpu` matches labels `singlecpu` for process with name matchAssessment:getIntron_matrices
-Jul-28 11:29:50.666 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.666 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.669 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:singlecpu` matches labels `singlecpu` for process with name matchAssessment:CombineIni
-Jul-28 11:29:50.670 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.670 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.673 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:singlecpu` matches labels `singlecpu` for process with name matchAssessment:CombineTrans
-Jul-28 11:29:50.674 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.674 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.679 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:singlecpu` matches labels `singlecpu` for process with name creatingParamFile
-Jul-28 11:29:50.680 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.680 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.685 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:singlecpu` matches labels `singlecpu` for process with name geneid_WORKFLOW:Index_i
-Jul-28 11:29:50.686 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.686 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.715 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
-Jul-28 11:29:50.715 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-Jul-28 11:29:50.718 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: ORF_finder, getIntron_matrices, runDIAMOND_getHSPs_GFF, geneid_WORKFLOW:Index_i, Index_i, pyComputeIntrons, filter_Fasta_by_length, prep_concat, mergeMatches, GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_FASTACLEANER, CombineIni, concatenate_Outputs, getFASTA, GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE, evaluateGFF3, GENOMEANNOTATOR:REPEATMASKER:FASTASPLITTER, GUNZIP, GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_CAT_FASTA, alignGenome_Proteins:runDIAMOND_getHSPs_GFF, getCDS_matrices, REPEATMASKER_STAGELIB, getFASTA2, matchAssessment:intron_workflow:pyComputeIntrons, summarizeMatches, CAT_FASTA, build_protein_DB:runDIAMOND_makedb, runDIAMOND_makedb, matchAssessment:cds_workflow:mergeMatches, geneid_WORKFLOW:runGeneid_fetching, GAAS_FASTACLEANER, filter_by_score, REPEATMODELER, downloadProtFasta, matchAssessment:intron_workflow:summarizeMatches, matchAssessment:intron_workflow:removeProtOverlappingIntrons, matchAssessment:intron_workflow:getFASTA, REPEATMASKER_CAT_FASTA, GAAS_FASTASTATISTICS, runGeneid_fetching, matchAssessment:CombineTrans, GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_FASTASTATISTICS, matchAssessment:cds_workflow:getFASTA, matchAssessment:getCDS_matrices, REPEATMASKER_REPEATMASK, Index_fai, updateGFFcoords, getProtFasta, build_protein_DB:UncompressFASTA, creatingParamFile, CombineTrans, GAAS_ASSEMBLYFILTERBYSIZE, removeProtOverlappingIntrons, matchAssessment:cds_workflow:getFASTA2, UncompressFASTA, pyComputeIntrons_SS, matchAssessment:CombineIni, GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_REPEATMASK, matchAssessment:getIntron_matrices, concatenate_Outputs_once, matchAssessment:cds_workflow:updateGFFcoords, gff34portal, matchAssessment:cds_workflow:filter_by_score, FASTASPLITTER, compress_n_indexFASTA, matchAssessment:cds_workflow:ORF_finder, GAAS_FASTAFILTERBYSIZE, GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB, matchAssessment:Index_fai
-Jul-28 11:29:50.720 [main] DEBUG nextflow.extension.CH - Bridging dataflow queue=DataflowQueue(queue=[])
-Jul-28 11:29:50.722 [main] DEBUG nextflow.Session - Ignite dataflow network (33)
-Jul-28 11:29:50.728 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE
-Jul-28 11:29:50.728 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_FASTACLEANER
-Jul-28 11:29:50.728 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_FASTASTATISTICS
-Jul-28 11:29:50.729 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > GENOMEANNOTATOR:REPEATMASKER:FASTASPLITTER
-Jul-28 11:29:50.729 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB
-Jul-28 11:29:50.731 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_REPEATMASK
-Jul-28 11:29:50.732 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_CAT_FASTA
-Jul-28 11:29:50.732 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > compress_n_indexFASTA
-Jul-28 11:29:50.732 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > build_protein_DB:UncompressFASTA
-Jul-28 11:29:50.733 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > build_protein_DB:runDIAMOND_makedb
-Jul-28 11:29:50.737 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > alignGenome_Proteins:runDIAMOND_getHSPs_GFF
-Jul-28 11:29:50.738 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > matchAssessment:Index_fai
-Jul-28 11:29:50.738 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > matchAssessment:cds_workflow:mergeMatches
-Jul-28 11:29:50.738 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > matchAssessment:cds_workflow:filter_by_score
-Jul-28 11:29:50.738 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > matchAssessment:cds_workflow:getFASTA
-Jul-28 11:29:50.739 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > matchAssessment:cds_workflow:ORF_finder
-Jul-28 11:29:50.739 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > matchAssessment:cds_workflow:updateGFFcoords
-Jul-28 11:29:50.739 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > matchAssessment:cds_workflow:getFASTA2
-Jul-28 11:29:50.739 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > matchAssessment:getCDS_matrices
-Jul-28 11:29:50.739 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > matchAssessment:intron_workflow:summarizeMatches
-Jul-28 11:29:50.740 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > matchAssessment:intron_workflow:pyComputeIntrons
-Jul-28 11:29:50.740 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > matchAssessment:intron_workflow:removeProtOverlappingIntrons
-Jul-28 11:29:50.740 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > matchAssessment:intron_workflow:getFASTA
-Jul-28 11:29:50.740 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > matchAssessment:getIntron_matrices
-Jul-28 11:29:50.740 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > matchAssessment:CombineIni
-Jul-28 11:29:50.740 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > matchAssessment:CombineTrans
-Jul-28 11:29:50.740 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > creatingParamFile
-Jul-28 11:29:50.740 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > geneid_WORKFLOW:Index_i
-Jul-28 11:29:50.740 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > geneid_WORKFLOW:runGeneid_fetching
-Jul-28 11:29:50.741 [main] DEBUG nextflow.script.ScriptRunner - > Await termination 
-Jul-28 11:29:50.741 [main] DEBUG nextflow.Session - Session await
-Jul-28 11:29:50.874 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
-Jul-28 11:29:50.879 [Task submitter] INFO  nextflow.Session - [59/d502bd] Submitted process > GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)
-Jul-28 11:29:50.898 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
-Jul-28 11:29:50.898 [Task submitter] INFO  nextflow.Session - [ea/b8fcf2] Submitted process > GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)
-Jul-28 11:29:50.906 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
-Jul-28 11:29:50.908 [Task submitter] INFO  nextflow.Session - [cf/5d9270] Submitted process > build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)
-Jul-28 11:29:51.020 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 1; name: build_protein_DB:UncompressFASTA (SampleProtein.fa.gz); status: COMPLETED; exit: 0; error: -; workDir: /home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting/work/cf/5d92706024505043d208ced03aaa3e]
-Jul-28 11:29:51.057 [Task monitor] DEBUG n.util.BlockingThreadExecutorFactory - Thread pool name=FileTransfer; maxThreads=24; maxQueueSize=72; keepAlive=1m
-Jul-28 11:29:54.242 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 3; name: GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome); status: COMPLETED; exit: 0; error: -; workDir: /home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting/work/ea/b8fcf22a5b2697e0ff4707fc8474d1]
-Jul-28 11:29:54.246 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
-Jul-28 11:29:54.248 [Task submitter] INFO  nextflow.Session - [a9/533047] Submitted process > build_protein_DB:runDIAMOND_makedb (building SampleProtein database)
-Jul-28 11:29:55.287 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 2; name: GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa); status: COMPLETED; exit: 0; error: -; workDir: /home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting/work/59/d502bd5ad34cf821bee56c457e28ef]
-Jul-28 11:29:55.296 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
-Jul-28 11:29:55.296 [Task submitter] INFO  nextflow.Session - [9e/e6388e] Submitted process > GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_FASTACLEANER (SampleGenome)
-Jul-28 11:29:56.140 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 4; name: build_protein_DB:runDIAMOND_makedb (building SampleProtein database); status: COMPLETED; exit: 0; error: -; workDir: /home/vant/Documents/CRG_internship/nextflow/merging_masking_n_predicting/work/a9/533047ba971fa11a3eef78167e4879]
-Jul-28 11:29:58.774 [SIGINT handler] DEBUG nextflow.Session - Session aborted -- Cause: SIGINT
-Jul-28 11:29:58.788 [SIGINT handler] DEBUG nextflow.Session - The following nodes are still active:
-[process] GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_FASTASTATISTICS
-  status=ACTIVE
-  port 0: (value) OPEN  ; channel: -
-  port 1: (cntrl) -     ; channel: $
-
-[process] GENOMEANNOTATOR:REPEATMASKER:FASTASPLITTER
-  status=ACTIVE
-  port 0: (value) OPEN  ; channel: -
-  port 1: (value) bound ; channel: fsize
-  port 2: (cntrl) -     ; channel: $
-
-[process] GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_REPEATMASK
-  status=ACTIVE
-  port 0: (queue) OPEN  ; channel: -
-  port 1: (value) bound ; channel: LIBDIR
-  port 2: (value) bound ; channel: rm_lib
-  port 3: (value) bound ; channel: rm_species
-  port 4: (cntrl) -     ; channel: $
-
-[process] GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_CAT_FASTA
-  status=ACTIVE
-  port 0: (queue) OPEN  ; channel: -
-  port 1: (cntrl) -     ; channel: $
-
-[process] compress_n_indexFASTA
-  status=ACTIVE
-  port 0: (queue) OPEN  ; channel: genome_file
-  port 1: (cntrl) -     ; channel: $
-
-[process] alignGenome_Proteins:runDIAMOND_getHSPs_GFF
-  status=ACTIVE
-  port 0: (value) bound ; channel: dmnd_database_file
-  port 1: (queue) OPEN  ; channel: reference_genome_file
-  port 2: (cntrl) -     ; channel: $
-
-[process] matchAssessment:Index_fai
-  status=ACTIVE
-  port 0: (queue) OPEN  ; channel: main_genome_file
-  port 1: (cntrl) -     ; channel: $
-
-[process] matchAssessment:cds_workflow:mergeMatches
-  status=ACTIVE
-  port 0: (queue) OPEN  ; channel: gff_file
-  port 1: (cntrl) -     ; channel: $
-
-[process] matchAssessment:cds_workflow:filter_by_score
-  status=ACTIVE
-  port 0: (queue) OPEN  ; channel: gff3_file
-  port 1: (value) bound ; channel: score
-  port 2: (cntrl) -     ; channel: $
-
-[process] matchAssessment:cds_workflow:getFASTA
-  status=ACTIVE
-  port 0: (queue) OPEN  ; channel: gff3_file
-  port 1: (queue) OPEN  ; channel: ref_genome
-  port 2: (queue) OPEN  ; channel: ref_genome_index
-  port 3: (cntrl) -     ; channel: $
-
-[process] matchAssessment:cds_workflow:ORF_finder
-  status=ACTIVE
-  port 0: (queue) OPEN  ; channel: seqs_file
-  port 1: (value) bound ; channel: min_orf_len
-  port 2: (cntrl) -     ; channel: $
-
-[process] matchAssessment:cds_workflow:updateGFFcoords
-  status=ACTIVE
-  port 0: (queue) OPEN  ; channel: original_gff3
-  port 1: (queue) OPEN  ; channel: relative_coords_file
-  port 2: (cntrl) -     ; channel: $
-
-[process] matchAssessment:cds_workflow:getFASTA2
-  status=ACTIVE
-  port 0: (queue) OPEN  ; channel: gff3_file
-  port 1: (queue) OPEN  ; channel: ref_genome
-  port 2: (queue) OPEN  ; channel: ref_genome_index
-  port 3: (cntrl) -     ; channel: $
-
-[process] matchAssessment:getCDS_matrices
-  status=ACTIVE
-  port 0: (queue) OPEN  ; channel: cds
-  port 1: (cntrl) -     ; channel: $
-
-[process] matchAssessment:intron_workflow:summarizeMatches
-  status=ACTIVE
-  port 0: (queue) OPEN  ; channel: main_matches
-  port 1: (value) bound ; channel: exon_margin
-  port 2: (cntrl) -     ; channel: $
-
-[process] matchAssessment:intron_workflow:pyComputeIntrons
-  status=ACTIVE
-  port 0: (queue) OPEN  ; channel: main_matches
-  port 1: (value) bound ; channel: min_intron_size
-  port 2: (value) bound ; channel: max_intron_size
-  port 3: (cntrl) -     ; channel: $
-
-[process] matchAssessment:intron_workflow:removeProtOverlappingIntrons
-  status=ACTIVE
-  port 0: (queue) OPEN  ; channel: main_matches
-  port 1: (queue) OPEN  ; channel: introns
-  port 2: (cntrl) -     ; channel: $
-
-[process] matchAssessment:intron_workflow:getFASTA
-  status=ACTIVE
-  port 0: (queue) OPEN  ; channel: gff3_file
-  port 1: (queue) OPEN  ; channel: ref_genome
-  port 2: (queue) OPEN  ; channel: ref_genome_index
-  port 3: (cntrl) -     ; channel: $
-
-[process] matchAssessment:getIntron_matrices
-  status=ACTIVE
-  port 0: (queue) OPEN  ; channel: introns
-  port 1: (cntrl) -     ; channel: $
-
-[process] matchAssessment:CombineIni
-  status=ACTIVE
-  port 0: (queue) OPEN  ; channel: cds_mats_ini
-  port 1: (queue) OPEN  ; channel: intron_mats_ini
-  port 2: (cntrl) -     ; channel: $
-
-[process] matchAssessment:CombineTrans
-  status=ACTIVE
-  port 0: (queue) OPEN  ; channel: cds_mats_trans
-  port 1: (queue) OPEN  ; channel: intron_mats_trans
-  port 2: (cntrl) -     ; channel: $
-
-[process] creatingParamFile
-  status=ACTIVE
-  port 0: (queue) OPEN  ; channel: genome_file
-  port 1: (value) bound ; channel: no_score
-  port 2: (value) bound ; channel: site_factor
-  port 3: (value) bound ; channel: exon_factor
-  port 4: (value) bound ; channel: hsp_factor
-  port 5: (value) bound ; channel: exon_weight
-  port 6: (value) bound ; channel: min_intron_size
-  port 7: (value) bound ; channel: max_intron_size
-  port 8: (value) bound ; channel: start_pwm
-  port 9: (value) bound ; channel: acceptor_pwm
-  port 10: (value) bound ; channel: donor_pwm
-  port 11: (value) bound ; channel: stop_pwm
-  port 12: (queue) OPEN  ; channel: initial_probability_matrix
-  port 13: (queue) OPEN  ; channel: transition_probability_matrix
-  port 14: (cntrl) -     ; channel: $
-
-[process] geneid_WORKFLOW:Index_i
-  status=ACTIVE
-  port 0: (queue) OPEN  ; channel: main_genome_file
-  port 1: (cntrl) -     ; channel: $
-
-[process] geneid_WORKFLOW:runGeneid_fetching
-  status=ACTIVE
-  port 0: (value) OPEN  ; channel: reference_genome_file
-  port 1: (queue) OPEN  ; channel: reference_genome_index
-  port 2: (queue) OPEN  ; channel: geneid_param
-  port 3: (queue) OPEN  ; channel: protein_matches
-  port 4: (queue) OPEN  ; channel: query
-  port 5: (cntrl) -     ; channel: $
-
-Jul-28 11:29:58.791 [main] DEBUG nextflow.Session - Session await > all process finished
-Jul-28 11:29:58.792 [main] DEBUG nextflow.Session - Session await > all barriers passed
-Jul-28 11:29:58.795 [main] INFO  nextflow.Nextflow - -[0;35m[GeneidBLASTx][0;31m Pipeline completed with errors[0m-
-Jul-28 11:29:58.801 [main] WARN  n.processor.TaskPollingMonitor - Killing pending tasks (1)
-Jul-28 11:29:58.813 [main] DEBUG nextflow.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=4; failedCount=0; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=1; succeedDuration=8s; failedDuration=0ms; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=3; peakCpus=6; peakMemory=32 GB; ]
-Jul-28 11:29:58.813 [main] DEBUG nextflow.trace.TraceFileObserver - Flow completing -- flushing trace file
-Jul-28 11:29:58.815 [main] DEBUG nextflow.trace.ReportObserver - Flow completing -- rendering html report
-Jul-28 11:29:58.850 [main] DEBUG nextflow.trace.ReportObserver - Execution report summary data:
-  [{"cpuUsage":{"mean":88.9,"min":88.9,"q1":88.9,"q2":88.9,"q3":88.9,"max":88.9,"minLabel":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","maxLabel":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q1Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q2Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q3Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)"},"process":"UncompressFASTA","mem":{"mean":4993024,"min":4993024,"q1":4993024,"q2":4993024,"q3":4993024,"max":4993024,"minLabel":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","maxLabel":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q1Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q2Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q3Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)"},"memUsage":{"mean":0.08,"min":0.08,"q1":0.08,"q2":0.08,"q3":0.08,"max":0.08,"minLabel":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","maxLabel":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q1Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q2Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q3Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)"},"timeUsage":null,"vmem":{"mean":15888384,"min":15888384,"q1":15888384,"q2":15888384,"q3":15888384,"max":15888384,"minLabel":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","maxLabel":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q1Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q2Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q3Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)"},"reads":{"mean":1547558,"min":1547558,"q1":1547558,"q2":1547558,"q3":1547558,"max":1547558,"minLabel":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","maxLabel":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q1Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q2Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q3Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)"},"cpu":{"mean":88.9,"min":88.9,"q1":88.9,"q2":88.9,"q3":88.9,"max":88.9,"minLabel":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","maxLabel":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q1Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q2Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q3Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)"},"time":{"mean":49,"min":49,"q1":49,"q2":49,"q3":49,"max":49,"minLabel":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","maxLabel":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q1Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q2Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q3Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)"},"writes":{"mean":6391442,"min":6391442,"q1":6391442,"q2":6391442,"q3":6391442,"max":6391442,"minLabel":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","maxLabel":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q1Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q2Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)","q3Label":"build_protein_DB:UncompressFASTA (SampleProtein.fa.gz)"}},{"cpuUsage":{"mean":49.35,"min":49.35,"q1":49.35,"q2":49.35,"q3":49.35,"max":49.35,"minLabel":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","maxLabel":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q1Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q2Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q3Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)"},"process":"GAAS_ASSEMBLYFILTERBYSIZE","mem":{"mean":57413632,"min":57413632,"q1":57413632,"q2":57413632,"q3":57413632,"max":57413632,"minLabel":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","maxLabel":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q1Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q2Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q3Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)"},"memUsage":{"mean":0.45,"min":0.45,"q1":0.45,"q2":0.45,"q3":0.45,"max":0.45,"minLabel":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","maxLabel":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q1Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q2Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q3Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)"},"timeUsage":{"mean":0.01,"min":0.01,"q1":0.01,"q2":0.01,"q3":0.01,"max":0.01,"minLabel":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","maxLabel":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q1Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q2Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q3Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)"},"vmem":{"mean":80646144,"min":80646144,"q1":80646144,"q2":80646144,"q3":80646144,"max":80646144,"minLabel":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","maxLabel":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q1Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q2Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q3Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)"},"reads":{"mean":77902507,"min":77902507,"q1":77902507,"q2":77902507,"q3":77902507,"max":77902507,"minLabel":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","maxLabel":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q1Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q2Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q3Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)"},"cpu":{"mean":98.7,"min":98.7,"q1":98.7,"q2":98.7,"q3":98.7,"max":98.7,"minLabel":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","maxLabel":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q1Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q2Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q3Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)"},"time":{"mean":1000,"min":1000,"q1":1000,"q2":1000,"q3":1000,"max":1000,"minLabel":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","maxLabel":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q1Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q2Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q3Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)"},"writes":{"mean":76534874,"min":76534874,"q1":76534874,"q2":76534874,"q3":76534874,"max":76534874,"minLabel":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","maxLabel":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q1Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q2Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)","q3Label":"GENOMEANNOTATOR:ASSEMBLY_PREPROCESS:GAAS_ASSEMBLYFILTERBYSIZE (SampleGenome)"}},{"cpuUsage":{"mean":50.35,"min":50.35,"q1":50.35,"q2":50.35,"q3":50.35,"max":50.35,"minLabel":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","maxLabel":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q1Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q2Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q3Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)"},"process":"REPEATMASKER_STAGELIB","mem":{"mean":58081280,"min":58081280,"q1":58081280,"q2":58081280,"q3":58081280,"max":58081280,"minLabel":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","maxLabel":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q1Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q2Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q3Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)"},"memUsage":{"mean":0.45,"min":0.45,"q1":0.45,"q2":0.45,"q3":0.45,"max":0.45,"minLabel":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","maxLabel":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q1Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q2Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q3Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)"},"timeUsage":{"mean":0.02,"min":0.02,"q1":0.02,"q2":0.02,"q3":0.02,"max":0.02,"minLabel":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","maxLabel":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q1Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q2Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q3Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)"},"vmem":{"mean":74829824,"min":74829824,"q1":74829824,"q2":74829824,"q3":74829824,"max":74829824,"minLabel":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","maxLabel":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q1Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q2Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q3Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)"},"reads":{"mean":2286752998,"min":2286752998,"q1":2286752998,"q2":2286752998,"q3":2286752998,"max":2286752998,"minLabel":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","maxLabel":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q1Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q2Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q3Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)"},"cpu":{"mean":100.7,"min":100.7,"q1":100.7,"q2":100.7,"q3":100.7,"max":100.7,"minLabel":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","maxLabel":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q1Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q2Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q3Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)"},"time":{"mean":3000,"min":3000,"q1":3000,"q2":3000,"q3":3000,"max":3000,"minLabel":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","maxLabel":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q1Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q2Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q3Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)"},"writes":{"mean":2222495590,"min":2222495590,"q1":2222495590,"q2":2222495590,"q3":2222495590,"max":2222495590,"minLabel":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","maxLabel":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q1Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q2Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)","q3Label":"GENOMEANNOTATOR:REPEATMASKER:REPEATMASKER_STAGELIB (repeats.fa)"}},{"cpuUsage":{"mean":28.58,"min":28.58,"q1":28.58,"q2":28.58,"q3":28.58,"max":28.58,"minLabel":"build_protein_DB:runDIAMOND_makedb (building SampleProtein database)","maxLabel":"build_protein_DB:runDIAMOND_makedb (building SampleProtein database)","q1Label":"build_protein_DB:runDIAMOND_makedb (building SampleProtein database)","q2Label":"build_protein_DB:runDIAMOND_makedb (building SampleProtein database)","q3Label":"build_protein_DB:runDIAMOND_makedb (building SampleProtein database)"},"process":"runDIAMOND_makedb","mem":null,"memUsage":null,"timeUsage":null,"vmem":null,"reads":{"mean":35024,"min":35024,"q1":35024,"q2":35024,"q3":35024,"max":35024,"minLabel":"build_protein_DB:runDIAMOND_makedb (building SampleProtein database)","maxLabel":"build_protein_DB:runDIAMOND_makedb (building SampleProtein database)","q1Label":"build_protein_DB:runDIAMOND_makedb (building SampleProtein database)","q2Label":"build_protein_DB:runDIAMOND_makedb (building SampleProtein database)","q3Label":"build_protein_DB:runDIAMOND_makedb (building SampleProtein database)"},"cpu":{"mean":114.3,"min":114.3,"q1":114.3,"q2":114.3,"q3":114.3,"max":114.3,"minLabel":"build_protein_DB:runDIAMOND_makedb (building SampleProtein database)","maxLabel":"build_protein_DB:runDIAMOND_makedb (building SampleProtein database)","q1Label":"build_protein_DB:runDIAMOND_makedb (building SampleProtein database)","q2Label":"build_protein_DB:runDIAMOND_makedb (building SampleProtein database)","q3Label":"build_protein_DB:runDIAMOND_makedb (building SampleProtein database)"},"time":null,"writes":{"mean":349,"min":349,"q1":349,"q2":349,"q3":349,"max":349,"minLabel":"build_protein_DB:runDIAMOND_makedb (building SampleProtein database)","maxLabel":"build_protein_DB:runDIAMOND_makedb (building SampleProtein database)","q1Label":"build_protein_DB:runDIAMOND_makedb (building SampleProtein database)","q2Label":"build_protein_DB:runDIAMOND_makedb (building SampleProtein database)","q3Label":"build_protein_DB:runDIAMOND_makedb (building SampleProtein database)"}},{"cpuUsage":null,"process":"GAAS_FASTACLEANER","mem":null,"memUsage":null,"timeUsage":null,"vmem":null,"reads":null,"cpu":null,"time":null,"writes":null}]
-Jul-28 11:29:59.369 [main] DEBUG nextflow.trace.TimelineObserver - Flow completing -- rendering html timeline
-Jul-28 11:29:59.475 [main] DEBUG nextflow.CacheDB - Closing CacheDB done
-Jul-28 11:29:59.475 [main] INFO  org.pf4j.AbstractPluginManager - Stop plugin 'nf-tower@1.3.0'
-Jul-28 11:29:59.475 [main] DEBUG nextflow.plugin.BasePlugin - Plugin stopped nf-tower
-Jul-28 11:29:59.490 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye
+	at org.codehaus.groovy.control.ErrorCollector.failIfErrors(ErrorCollector.java:292)
+	at org.codehaus.groovy.control.ErrorCollector.addFatalError(ErrorCollector.java:148)
+	at org.apache.groovy.parser.antlr4.AstBuilder.collectSyntaxError(AstBuilder.java:4371)
+	at org.apache.groovy.parser.antlr4.AstBuilder.access$000(AstBuilder.java:176)
+	at org.apache.groovy.parser.antlr4.AstBuilder$1.syntaxError(AstBuilder.java:4382)
+	at groovyjarjarantlr4.v4.runtime.ProxyErrorListener.syntaxError(ProxyErrorListener.java:44)
+	at groovyjarjarantlr4.v4.runtime.Parser.notifyErrorListeners(Parser.java:543)
+	at groovyjarjarantlr4.v4.runtime.DefaultErrorStrategy.notifyErrorListeners(DefaultErrorStrategy.java:154)
+	at org.apache.groovy.parser.antlr4.internal.DescriptiveErrorStrategy.reportInputMismatch(DescriptiveErrorStrategy.java:103)
+	at org.apache.groovy.parser.antlr4.internal.DescriptiveErrorStrategy.recover(DescriptiveErrorStrategy.java:55)
+	at org.apache.groovy.parser.antlr4.internal.DescriptiveErrorStrategy.recoverInline(DescriptiveErrorStrategy.java:68)
+	at groovyjarjarantlr4.v4.runtime.Parser.match(Parser.java:213)
+	at org.apache.groovy.parser.antlr4.GroovyParser.compilationUnit(GroovyParser.java:362)
+	at org.apache.groovy.parser.antlr4.AstBuilder.buildCST(AstBuilder.java:250)
+	at org.apache.groovy.parser.antlr4.AstBuilder.buildCST(AstBuilder.java:228)
+	at org.apache.groovy.parser.antlr4.AstBuilder.buildAST(AstBuilder.java:269)
+	at org.apache.groovy.parser.antlr4.Antlr4ParserPlugin.buildAST(Antlr4ParserPlugin.java:58)
+	at org.codehaus.groovy.control.SourceUnit.buildAST(SourceUnit.java:256)
+	at java.base/java.util.Iterator.forEachRemaining(Iterator.java:133)
+	at java.base/java.util.Spliterators$IteratorSpliterator.forEachRemaining(Spliterators.java:1801)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:658)
+	at org.codehaus.groovy.control.CompilationUnit.buildASTs(CompilationUnit.java:666)
+	at org.codehaus.groovy.control.CompilationUnit.compile(CompilationUnit.java:632)
+	at ch.grengine.code.groovy.DefaultGroovyCompiler.compile(DefaultGroovyCompiler.java:241)
+	... 75 common frames omitted

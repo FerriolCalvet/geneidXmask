@@ -3,7 +3,7 @@
 */
 
 // Parameter definitions
-params.CONTAINER = "ferriolcalvet/python-modules"
+params.CONTAINER = "ferriolcalvet/geneidx"
 // params.OUTPUT = "geneid_output"
 // params.LABEL = ""
 
@@ -33,12 +33,11 @@ include { getFASTA as getFASTA2 } from "${subwork_folder}/tools" addParams(OUTPU
  WHAT IS THE BEST WAY TO DO IT IN NEXTFLOW
 
  Requirement: blast2gff docker
-
  */
 process mergeMatches {
 
     // indicates to use as a container the value indicated in the parameter
-    container "ferriolcalvet/blast2gff"
+    // container "ferriolcalvet/blast2gff"
 
     // show in the log which input file is analysed
     tag "${gff_file}"
@@ -54,10 +53,7 @@ process mergeMatches {
 
     script:
     main_output_file = gff_file.BaseName
-    // awk -F '\t' -v myvar=\$seq '\$1==myvar {print > (myvar".gff"); next} {print > ("REST.txt")}' ${main_output_file}.gff;
 
-    // var=$(echo "^$seq")
-    // egrep -w \$var ${main_output_file}.gff > \${seq}.gff
     """
     # get the sequences that have matches
     cut -f1 ${main_output_file}.gff | uniq | sort -u > ${main_output_file}.seqs
@@ -75,6 +71,10 @@ process mergeMatches {
 
     # remove the header rows of all files
     grep -v '#' ${main_output_file}.SR.gff > ${main_output_file}.SR.gff.tmp;
+    mv ${main_output_file}.SR.gff.tmp ${main_output_file}.SR.gff;
+
+    # remove the rows with start bigger than end
+    awk '\$4<\$5' ${main_output_file}.SR.gff > ${main_output_file}.SR.gff.tmp;
     mv ${main_output_file}.SR.gff.tmp ${main_output_file}.SR.gff;
 
     # change from GFF to GFF3 making each line a different "transcript"
@@ -125,7 +125,7 @@ process filter_by_score {
   Requirement: gffcompare docker
 
   ideally I could add some command to parse the output and get SNn and SPn
- */
+
 process evaluateGFF3 {
 
     // indicates to use as a container the value indicated in the parameter
@@ -158,6 +158,7 @@ process evaluateGFF3 {
     printf "\$SNn\t\$SPn\n";
     """
 }
+*/
 
 
 /*
@@ -209,7 +210,7 @@ process updateGFFcoords {
     // publishDir(params.OUTPUT, mode : 'copy', pattern : '*.gff3')
 
     // indicates to use as a container the value indicated in the parameter
-    container "ferriolcalvet/python-modules"
+    container "ferriolcalvet/geneidx"
 
     // indicates to use as a label the value indicated in the parameter
     label (params.LABEL)
@@ -227,7 +228,7 @@ process updateGFFcoords {
     script:
     original_gff3_basename = original_gff3.BaseName
     """
-    #!/usr/bin/env python
+    #!/usr/bin/env python3
 
     import pandas as pd
 
@@ -265,7 +266,6 @@ process updateGFFcoords {
 /*
  * Workflow for obtaining the estimates of the exon sequences
  */
-
 workflow cds_workflow {
 
     // definition of input

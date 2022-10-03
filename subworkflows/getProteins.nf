@@ -3,7 +3,7 @@
 */
 
 // Parameter definitions
-params.CONTAINER = "ferriolcalvet/python-modules"
+params.CONTAINER = "ferriolcalvet/geneidx"
 // params.OUTPUT = "geneid_output"
 // params.LABEL = ""
 
@@ -20,7 +20,7 @@ process getProtFasta {
     // publishDir(params.OUTPUT, mode : 'copy', pattern : '*.gff3')
 
     // indicates to use as a container the value indicated in the parameter
-    container "ferriolcalvet/python-modules"
+    container "ferriolcalvet/geneidx"
 
     // indicates to use as a label the value indicated in the parameter
     label (params.LABEL)
@@ -30,6 +30,8 @@ process getProtFasta {
 
     input:
     val taxon
+    val lower_lim_proteins
+    val upper_lim_proteins
 
     output:
     stdout emit: description
@@ -37,15 +39,15 @@ process getProtFasta {
 
     script:
     """
-    #!/usr/bin/env python
+    #!/usr/bin/env python3
 
     sp_taxon_id = ${taxon}
 
-    lower_lim = 20000 #90000
-    upper_lim = 30000 #130000
+    lower_lim = ${lower_lim_proteins}
+    upper_lim = ${upper_lim_proteins}
 
     identity = 0.9
-    ini_clu_size = 40 # 24
+    ini_clu_size = 24
     clu_size = ini_clu_size
 
     max_iterations = 30
@@ -108,10 +110,10 @@ process getProtFasta {
         r = requests.get(query)
 
         # if we have more proteins than the minimum required
-        if lower_lim <= int(r.headers["x-total-records"]):
+        if lower_lim <= int(r.headers["X-Total-Results"]):
 
             # check if we are inside the target range of proteins
-            if int(r.headers["x-total-records"]) <= upper_lim:
+            if int(r.headers["X-Total-Results"]) <= upper_lim:
                 in_range = True
 
             # if we are above the target range, increase the cluster size required, this will reduce the number of proteins
@@ -126,7 +128,7 @@ process getProtFasta {
                 clu_size = ini_clu_size
 
         # as we don't reach the minimum number of proteins, we need to get less stringent in terms of cluster size
-        elif clu_size >= 8:
+        elif clu_size >= 6:
             clu_size -= 3
 
         # if even when reducing cluster size a lot, we don't get enough proteins, let's get one taxonomic rank higher.
@@ -166,7 +168,7 @@ process downloadProtFasta {
     publishDir(params.OUTPUT, mode : 'copy', pattern : '*.fa.gz')
 
     // indicates to use as a container the value indicated in the parameter
-    container "ferriolcalvet/python-modules"
+    container "ferriolcalvet/geneidx"
 
     // indicates to use as a label the value indicated in the parameter
     label (params.LABEL)
@@ -186,7 +188,7 @@ process downloadProtFasta {
     (prot_desc, prot_filename, prot_query ) = (text_desc =~ /([A-Za-z\d\.\+]+)\s(.*)/)[0]
 
     """
-    #!/usr/bin/env python
+    #!/usr/bin/env python3
 
     import requests, os
 
@@ -218,9 +220,11 @@ workflow prot_down_workflow {
     // definition of input
     take:
     taxid
+    lower_lim
+    upper_lim
 
     main:
-    prot_file_down = getProtFasta(taxid) | downloadProtFasta
+    prot_file_down = getProtFasta(taxid, lower_lim, upper_lim) | downloadProtFasta
 
     // information_prots = file("hi.txt")
     // (prot_file_name, prot_file_link) = (information_prots =~ /([A-Za-z\d\.\+]+)\s(.*)/)

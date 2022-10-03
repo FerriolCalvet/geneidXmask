@@ -1,5 +1,5 @@
 /*
-*  Geneid module.
+*
 */
 
 // Parameter definitions
@@ -70,7 +70,7 @@ process summarizeMatches {
 process pyComputeIntrons {
 
     // indicates to use as a container the value indicated in the parameter
-    container "ferriolcalvet/python-modules"
+    container "ferriolcalvet/geneidx"
 
     // indicates to use as a label the value indicated in the parameter
     label (params.LABEL)
@@ -90,7 +90,7 @@ process pyComputeIntrons {
     main_matches_name = main_matches.BaseName
 
     """
-    #!/usr/bin/env python
+    #!/usr/bin/env python3
 
     import pandas as pd
 
@@ -145,8 +145,6 @@ process pyComputeIntrons {
                      header = None,
                      index = None)
     """
-    // awk '!found[\$1"\t"\$2"\t"\$3"\t"\$4"\t"\$5]++' ${main_matches_name}.introns.gff | \
-    //              sort -k1,1 -k4,5n > ${main_matches_name}.introns.non_redundant.gff
 }
 
 
@@ -157,11 +155,11 @@ process pyComputeIntrons {
 
 /*
  * Use a python script for identifying the introns
- */
+
 process pyComputeIntrons_SS {
 
     // indicates to use as a container the value indicated in the parameter
-    container "ferriolcalvet/python-modules"
+    container "ferriolcalvet/geneidx"
 
     // indicates to use as a label the value indicated in the parameter
     label (params.LABEL)
@@ -183,7 +181,7 @@ process pyComputeIntrons_SS {
     main_matches_name = main_matches.BaseName
 
     """
-    #!/usr/bin/env python
+    #!/usr/bin/env python3
 
     import pandas as pd
 
@@ -281,10 +279,6 @@ process pyComputeIntrons_SS {
 
     dd_intron = dd_intron.sort_values(by = ['seq', 'start', 'end']).reset_index(drop = True)
 
-    #dd_intron.to_csv("${main_matches_name}.introns.gff",
-    #                 sep = "\t",
-    #                 header = None,
-    #                 index = None)
     dd_intron.to_csv("${main_matches_name}.introns.gff3",
                      sep = "\t",
                      header = None,
@@ -304,7 +298,7 @@ process pyComputeIntrons_SS {
     //              sort -k1,1 -k4,5n > ${main_matches_name}.introns.non_redundant.gff
 }
 
-
+*/
 
 
 

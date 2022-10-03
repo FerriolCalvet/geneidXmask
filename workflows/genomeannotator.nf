@@ -106,7 +106,8 @@ workflow GENOMEANNOTATOR {
     }
 
     //
-    // MODULE: Repeatmask the genome; if a repeat species is provided, use that - else the repeats in FASTA format
+    // MODULE: Repeatmask the genome; if a repeat species is provided, use it
+    //         - else the repeats in FASTA format
     if (params.rm_species) {
        REPEATMASKER(
           ASSEMBLY_PREPROCESS.out.fasta,
