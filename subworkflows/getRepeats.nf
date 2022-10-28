@@ -1,9 +1,9 @@
 /*
-*  Geneid module.
+*  Get parameters module.
 */
 
 // Parameter definitions
-// params.CONTAINER = "ferriolcalvet/geneidx"
+params.CONTAINER = "ferriolcalvet/geneidx"
 // params.OUTPUT = "geneid_output"
 // params.LABEL = ""
 
@@ -14,22 +14,26 @@
 OutputFolder = "${params.output}"
 
 
-process getRepeatFasta {
+process getProtRepeats {
 
-    // where to store the results and in which way
-    // publishDir(params.OUTPUT, mode : 'copy', pattern : '*.gff3')
+    // // Here we could add the option for a possible output
+    // //   of the .tsv file
+    // ${data_path}/
 
     // indicates to use as a container the value indicated in the parameter
     container "ferriolcalvet/geneidx"
+    // container "ferriolcalvet/python-geneid-params"
 
     // indicates to use as a label the value indicated in the parameter
     label (params.LABEL)
 
     // show in the log which input file is analysed
-    tag "${taxon}"
+    tag "${taxid}"
 
     input:
-    val taxon
+    val taxid
+    val update // unless you manually add a new parameter file, leave it as False
+    path data_path
 
     output:
     stdout emit: description
@@ -37,133 +41,180 @@ process getRepeatFasta {
 
     script:
     """
-    #!/usr/bin/env python
+    #!/usr/bin/env python3
+    # coding: utf-8
 
-    sp_taxon_id = ${taxon}
-
-    lower_lim = 20000 #90000
-    upper_lim = 30000 #130000
-
-    identity = 0.9
-    ini_clu_size = 40 # 24
-    clu_size = ini_clu_size
-
-    max_iterations = 30
-
-
+    import os, sys
+    import pandas as pd
     import requests
     from lxml import etree
 
-    def parse_taxon_mod(xml):
-        root = etree.fromstring(xml)
-        species = (root[0].attrib["rank"], root[0].attrib["taxId"])
+
+    # Define an alternative in case everything fails
+    #### MISSING ####
+
+
+    # Define functions
+    def choose_node(main_node, sp_name):
+        for i in range(len(main_node)):
+            if main_node[i].attrib["scientificName"] == sp_name:
+                return main_node[i]
+        return None
+
+
+    # given a node labelled with the species, and with
+    # lineage inside it returns the full path of the lineage
+    def sp_to_lineage_clean ( sp_sel ):
         lineage = []
-        for taxon in root[0]:
+
+        if sp_sel is not None:
+            lineage.append(sp_sel.attrib["taxId"])
+
+        for taxon in sp_sel:
             if taxon.tag == 'lineage':
                 lin_pos = 0
                 for node in taxon:
                     if "rank" in node.attrib.keys():
-                        lineage.append( (node.attrib["rank"], node.attrib["taxId"]) )
+                        lineage.append( node.attrib["taxId"] )
                     else:
-                        lineage.append((lin_pos, node.attrib["taxId"]))
+                        lineage.append( node.attrib["taxId"] )
                     lin_pos += 1
+        return(lineage)
 
-        lineage.insert(0,species)
+
+    #
+    def get_organism(taxon_id):
+        response = requests.get(f"https://www.ebi.ac.uk/ena/browser/api/xml/{taxon_id}?download=false") ##
+        if response.status_code == 200:
+            root = etree.fromstring(response.content)
+            species = root[0].attrib
+            lineage = []
+            for taxon in root[0]:
+                if taxon.tag == 'lineage':
+                    for node in taxon:
+                        lineage.append(node.attrib["taxId"])
         return lineage
 
 
+    # given a species from Ensembl, receive the link to the repeats file
+    # as well as the filename alone
+    def species_to_repeats(spec):
 
-    response = requests.get(f"https://www.ebi.ac.uk/ena/browser/api/xml/{sp_taxon_id}?download=false")
+        species_specific_link = f"http://ftp.ebi.ac.uk/pub/databases/ensembl/repeats/unfiltered_repeatmodeler/species/{spec}/"
+        species_specific_data = pd.read_html(species_specific_link)[0]
+
+        species_specific_data = species_specific_data[species_specific_data["Name"].isna().astype(int) == 0]
+        species_specific_data = species_specific_data[species_specific_data["Name"].str.endswith(".fa")
+                                                     ].reset_index(drop = True)
+
+        species_specific_data = species_specific_data[["Name", "Last modified", "Size"]]
+
+        species_specific_data["Last modified"] = pd.to_datetime(species_specific_data["Last modified"])
+
+        selected_repeats = species_specific_data.sort_values(by = ["Last modified", "Name"],
+                                                         ascending = False).iloc[0]["Name"]
+
+        return (species_specific_link, selected_repeats)
 
 
-    lineage_l = parse_taxon_mod(response.content)
-    rank_l = []
-    taxid_l = []
-    for a, b in lineage_l:
-        rank_l.append(a)
-        taxid_l.append(b)
 
-    if rank_l.index("class"):
-        pos_class = rank_l.index("class")
+    if ${update}:
+        ###
+        # We want to update the lists as new repeat files may have appeared
+        ###
+
+        data_species = pd.read_html('http://ftp.ebi.ac.uk/pub/databases/ensembl/repeats/unfiltered_repeatmodeler/species/')[0]
+        data_species = data_species[data_species["Name"].isna().astype(int) == 0]
+        data_species = data_species[data_species["Name"].str.endswith("/")].reset_index(drop = True)
+
+        # Select the list of species
+        list_species = list(data_species["Name"].str.strip(" /").str.capitalize().values)
+
+        # Put the list into a dataframe
+        data_names = pd.DataFrame(list_species, columns = ["Species_name"])
+
+        # Generate the dataframe with the filename and lineage information
+        list_repeats_lineages = []
+        for species_no_space in data_names.loc[:,"Species_name"] :
+            species = species_no_space.replace("_", " ")
+
+            # Get lineage
+            lineage_sp = getLineage_from_Name(species)
+
+            if lineage_sp is not None:
+                list_repeats_lineages.append((species_no_space.lower(), lineage_sp))
+
+
+        # Put the information into a dataframe
+        data = pd.DataFrame(list_repeats_lineages, columns = ["species", "taxidlist"])
+
+        data.to_csv("repeats_df.tsv", sep = "\t", index = False)
+        # print("New parameters saved")
+
+
     else:
-        pos_class = len(rank_l)//2
+        ###
+        # We want to load the previously generated dataframe
+        ###
+        data = pd.read_csv("${data_path}/repeats_df.tsv", sep = "\t")
 
-    taxon = taxid_l[pos_class]
-    # print(taxon)
+        def split_n_convert(x):
+            return [int(i) for i in x.replace("'", "").strip("[]").split(", ")]
+        data.loc[:,"taxidlist"] = data.loc[:,"taxidlist"].apply(split_n_convert)
 
-
-    # build initial query
-    search_type = "search"
-    format_type = "list"
-    initial_query = "https://rest.uniprot.org/uniref/{}?format={}".format(search_type, format_type)
-
-
-    # define parameters controlling the loop
-    i=0
-    in_range = False
+    # Following either one or the other strategy we now have N parameters to choose.
+    # print(data.shape[0], "parameters available to choose")
 
 
-    while not in_range and i < max_iterations:
-        query = initial_query + "&query=(taxonomy_id:{})%20AND%20(identity:{})%20AND%20(count:[{}%20TO%20*])".format(taxon, identity, clu_size)
-        r = requests.get(query)
 
-        # if we have more proteins than the minimum required
-        if lower_lim <= int(r.headers["x-total-records"]):
+    ###
+    # Separate the lineages into a single taxid per row
+    ###
+    exploded_df = data.explode("taxidlist")
+    exploded_df.columns = ["species", "taxid"]
+    #exploded_df.loc[:,"taxid"] = exploded_df.loc[:,"taxid"].astype(int)
 
-            # check if we are inside the target range of proteins
-            if int(r.headers["x-total-records"]) <= upper_lim:
-                in_range = True
+    ###
+    # Get the species of interest lineage
+    ###
+    query = pd.DataFrame(get_organism(int(${taxid})))
+    query.columns = ["taxid"]
+    query.loc[:,"taxid"] = query.loc[:,"taxid"].astype(int)
+    # print(query)
 
-            # if we are above the target range, increase the cluster size required, this will reduce the number of proteins
-            elif clu_size <= 50:
-                clu_size += 3
+    ###
+    # Intersect the species lineage with the dataframe of taxids for parameters
+    ###
+    intersected_params = query.merge(exploded_df, on = "taxid")
+    # print(intersected_params.shape)
 
-            # if we already have a very big cluster size, go one taxonomic rank lower to reduce the diversity of proteins available
-            else :
-                # get one taxonomic rank lower
-                pos_class = pos_class - 1
-                taxon = taxid_l[pos_class]
-                clu_size = ini_clu_size
+    ###
+    # If there is an intersection, select the parameter whose taxid appears
+    #   less times, less frequency implies more closeness
+    ###
+    if intersected_params.shape[0] > 0:
+        #print(intersected_params.loc[:,"taxid"].value_counts().sort_values())
 
-        # as we don't reach the minimum number of proteins, we need to get less stringent in terms of cluster size
-        elif clu_size >= 8:
-            clu_size -= 3
+        taxid_closest_param = intersected_params.loc[:,"taxid"].value_counts().sort_values().index[0]
+        #print(taxid_closest_param)
 
-        # if even when reducing cluster size a lot, we don't get enough proteins, let's get one taxonomic rank higher.
-        else:
-            # get one taxonomic rank higher
-            pos_class = pos_class + 1
-            taxon = taxid_l[pos_class]
-            clu_size = ini_clu_size
+        selected_sp_repeats = intersected_params[intersected_params["taxid"] == taxid_closest_param].loc[:,"species"].iloc[0]
 
-        # update i as we want to have a maximum number of queries
-        # do we want this maximum number??
-        i += 1
+        link, file_sp = species_to_repeats(selected_sp_repeats)
+        print(file_sp + "\\t" + link+file_sp, end = '')
 
-
-    # this is included to have a solution for the worst case scenario
-    if not in_range:
-        taxon = "2759" # eukaryotes taxid
-        clu_size = 60  # change appropriately
-
-
-    search_type = "stream"
-    format_type = "fasta"
-    initial_query = "https://rest.uniprot.org/uniref/{}?format={}".format(search_type, format_type)
-    query = initial_query + "&compressed=true&query=(taxonomy_id:{})%20AND%20(identity:{})%20AND%20(count:[{}%20TO%20*])".format(taxon, identity, clu_size)
-    filename = "UniRef{}.{}.{}+".format(int(identity * 100), taxon, clu_size)
-
-    content_to_write = filename + "\t" + query
-    print(content_to_write)
     """
 
 }
 
 
-process downloadProtFasta {
+
+
+
+process downloadRepFasta {
 
     // where to store the results and in which way
-    publishDir(params.OUTPUT, mode : 'copy', pattern : '*.fa.gz')
+    publishDir(params.OUTPUT, mode : 'copy', pattern : '*.fa')
 
     // indicates to use as a container the value indicated in the parameter
     container "ferriolcalvet/geneidx"
@@ -172,36 +223,41 @@ process downloadProtFasta {
     label (params.LABEL)
 
     // show in the log which input file is analysed
-    tag "${prot_filename}"
+    tag "${repeats_filename}"
 
     input:
-    val text_desc
-    // val prot_filename
-    // val prot_query
+    val repeats_desc
 
     output:
-    path ("${prot_filename}.fa.gz")
+    path ("${repeats_filename}")
 
     script:
-    (prot_desc, prot_filename, prot_query ) = (text_desc =~ /([A-Za-z\d\.\+]+)\s(.*)/)[0]
+    (repeats_file_desc, repeats_filename ) = (repeats_desc =~ /([A-Za-z\d\._\+]+)\t+(.*)/)[0]
 
     """
     #!/usr/bin/env python
 
     import requests, os
 
-    if os.path.exists("${params.OUTPUT}/${prot_filename}.fa.gz") :
-      print(" ${prot_filename}.fa.gz already downloaded ")
-      os.symlink( "${params.OUTPUT}/${prot_filename}.fa.gz", "${prot_filename}.fa.gz" );
+    # print("${repeats_desc}")
+    # print("${repeats_filename}")
+    # print("${repeats_file_desc}")
+
+    info = "${repeats_desc}".strip().split("\\t")
+    # print(info)
+
+    rep_filename = info[0]
+    rep_filelink = info[1]
+
+
+    if os.path.exists(f"${params.repeats_data_path}/{rep_filename}") :
+      print(f"{rep_filename} already downloaded")
+      os.symlink( f"${params.repeats_data_path}/{rep_filename}", rep_filename );
 
     else:
-      print(" Downloading ${prot_filename}.fa.gz ")
-      with requests.get("${prot_query}", stream=True) as request:
-        request.raise_for_status()
-        with open('${prot_filename}.fa.gz', 'wb') as f:
-          for chunk in request.iter_content(chunk_size=2**20):
-              f.write(chunk)
-
+      print(f"Downloading {rep_filename}")
+      r = requests.get(rep_filelink, allow_redirects=True)
+      open(rep_filename, 'wb').write(r.content)
     """
 
 }
@@ -213,19 +269,20 @@ process downloadProtFasta {
  * Workflow for obtaining the estimates of the exon sequences
  */
 
-workflow prot_down_workflow {
+workflow repeat_down_workflow {
 
     // definition of input
     take:
     taxid
+    data_path
 
     main:
-    prot_file_down = getProtFasta(taxid) | downloadProtFasta
+    repeat_file_down = getProtRepeats(taxid, 0, data_path) | downloadRepFasta
 
     // information_prots = file("hi.txt")
     // (prot_file_name, prot_file_link) = (information_prots =~ /([A-Za-z\d\.\+]+)\s(.*)/)
 
     emit:
-    prot_file_down
+    repeat_file_down
 
 }

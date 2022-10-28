@@ -98,11 +98,15 @@ workflow GENOMEANNOTATOR {
     //
     // SUBWORKFLOW: Repeat modelling if no repeats are provided
     //
-    if (!params.rm_lib && !params.rm_species) {
+    if (params.repeat_modeler) {
        REPEATMODELER(
           ASSEMBLY_PREPROCESS.out.fasta
        )
        ch_repeats = REPEATMODELER.out.fasta.map {m,fasta -> fasta}
+    }
+
+    if (!params.rm_lib && !params.rm_species) {
+
     }
 
     //

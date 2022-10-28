@@ -108,13 +108,12 @@ workflow geneid_WORKFLOW {
                    // .subscribe {  println "Got: $it"  }
                    .map{x -> x.toString().tokenize(':]').get(1)}
                    .set{ch}
-    ch.view()
 
     // we call the runGeneid_fetching module using the channel for the queries
-    predictions = runGeneid_fetching(ref_file,
-                                      index_filename,
-                                      geneid_param,
-                                      hsp_file,
+    predictions = runGeneid_fetching(ref_file.first(),
+                                      index_filename.first(),
+                                      geneid_param.first(),
+                                      hsp_file.first(),
                                       ch)
 
 

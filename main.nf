@@ -49,6 +49,9 @@ include { UncompressFASTA } from "${subwork_folder}/tools" addParams(OUTPUT: Out
 include { prot_down_workflow } from "${subwork_folder}/getProteins" addParams(OUTPUT: OutputFolderProteinDBs,
  LABEL:'singlecpu')
 
+include { repeat_down_workflow } from "${subwork_folder}/getRepeats" addParams(OUTPUT: OutputFolder,
+ LABEL:'singlecpu')
+
 include { build_protein_DB } from "${subwork_folder}/build_dmnd_db" addParams(OUTPUT: OutputFolderProteinDBs,
  LABEL:'fourcpus')
 
@@ -125,6 +128,11 @@ include { GENOMEANNOTATOR } from './workflows/genomeannotator'
 workflow {
 
     parameter_location = file(params.parameter_path)
+    data_location = file(params.repeats_data_path)
+
+    params.repeats_file = repeat_down_workflow(params.taxid,
+                                                data_location)
+
 
     uncompressed_genome = GENOMEANNOTATOR()
 
