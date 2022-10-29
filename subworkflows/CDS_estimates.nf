@@ -31,8 +31,6 @@ include { getFASTA as getFASTA2 } from "${subwork_folder}/tools" addParams(OUTPU
  * also change format to GFF3
  THIS COULD BE EASILY PARALLELIZABLE BUT I AM NOT SURE
  WHAT IS THE BEST WAY TO DO IT IN NEXTFLOW
-
- Requirement: blast2gff docker
  */
 process mergeMatches {
 
@@ -118,47 +116,6 @@ process filter_by_score {
 
 
 
-/*
- * Evaluate against a reference GFF3
- * Provide as output a TSV with the stats?
-
-  Requirement: gffcompare docker
-
-  ideally I could add some command to parse the output and get SNn and SPn
-
-process evaluateGFF3 {
-
-    // indicates to use as a container the value indicated in the parameter
-    container params.CONTAINER
-
-    // indicates to use as a label the value indicated in the parameter
-    label (params.LABEL)
-
-    // show in the log which input file is analysed
-    tag "${gff3_file}"
-
-    input:
-    path (reference_gff3)
-    path (query_gff3)
-
-    output:
-    stdout // not sure this is correct
-    path ("${query_gff3}.out.stats")
-
-    script:
-    """
-    gffcompare -T -r ${reference_gff3} ${query_gff3} -o ${query_gff3}.out
-    rm ${query_gff3}.out.loci
-    rm ${query_gff3}.out.annotated.gtf
-    rm ${query_gff3}.out.combined.gtf
-    rm ${query_gff3}.out.tracking
-    metricsN=\$(grep 'Base level' ${query_gff3}.out.stats | tr -s ' ' '\t' | cut -f 4,6)
-    SNn=\$(echo "\$metricsN" | cut -f1)
-    SPn=\$(echo "\$metricsN" | cut -f2)
-    printf "\$SNn\t\$SPn\n";
-    """
-}
-*/
 
 
 /*
@@ -190,8 +147,7 @@ process ORF_finder {
                         --outdir .
     rm ${seqs_file_name}.bed
     """
-    // # remove log also
-    // ls -l *.log | head -1 | xargs -n 1 rm
+
 }
 
 /*
@@ -284,24 +240,16 @@ workflow cds_workflow {
     original_HSP_gff3 = mergeMatches(hsp_file)
 
     // filter the HSPs by the score
-    // score = 200
     filtered_HSPs_gff3 = filter_by_score(original_HSP_gff3, min_Match_score)
-
-    // report first metrics using gffcompare
-    // metrics1 = evaluateGFF3(filtered_HSPs_gff3, reference_gff3)
 
     // use gffread for obtaining the sequences of the matches
     matches_seqs = getFASTA(filtered_HSPs_gff3, ref_file, ref_file_ind)
 
     // use orfipy for obtaining the longest ORFs of each match
-    // minORF = 100
     hsp_rel_ORFs_coords = ORF_finder(matches_seqs, minMatchORF)
 
     // use python script for computing the absolute coordinates
     hsp_abs_ORFs_coords = updateGFFcoords(original_HSP_gff3, hsp_rel_ORFs_coords)
-
-    // evaluate the newly generated GFF3
-    // metrics2 = evaluateGFF3(hspORFs_coords, reference_gff3)
 
     // get the sequences of the ORFs using gffread again
     hspORFs_seqs = getFASTA2(hsp_abs_ORFs_coords, ref_file, ref_file_ind)

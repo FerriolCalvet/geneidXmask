@@ -178,8 +178,6 @@ process downloadProtFasta {
 
     input:
     val text_desc
-    // val prot_filename
-    // val prot_query
 
     output:
     path ("${prot_filename}.fa.gz")
@@ -203,7 +201,6 @@ process downloadProtFasta {
         with open('${prot_filename}.fa.gz', 'wb') as f:
           for chunk in request.iter_content(chunk_size=2**20):
               f.write(chunk)
-
     """
 
 }

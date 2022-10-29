@@ -23,11 +23,25 @@ if (params.assembly) {
   exit 1, 'No assembly specified!'
 }
 
+
+OutputFolder = "${params.output}"
+
+/*
+ * Defining the module / subworkflow path, and include the elements
+ */
+subwork_folder = "${projectDir}/subworkflows"
+
+include { repeat_down_workflow } from "${subwork_folder}/getRepeats" addParams(OUTPUT: OutputFolder,
+ LABEL:'singlecpu')
+
+
+
 // Set relevant input channels
 if (params.rm_lib) {
+  ch_repeats_status = 1
   ch_repeats = Channel.fromPath(file(params.rm_lib, checkIfExists: true))
 } else {
-  ch_repeats = Channel.fromPath("${workflow.projectDir}/assets/repeatmasker/repeats.fa")
+  ch_repeats_status = 0
 }
 
 if (params.rm_db) {
@@ -57,7 +71,6 @@ if (params.rm_db) {
 
 include { ASSEMBLY_PREPROCESS } from '../subworkflows/local/assembly_preprocess'
 include { REPEATMASKER } from '../subworkflows/local/repeatmasker'
-// include { BUSCO_QC } from '../subworkflows/local/busco_qc'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -68,8 +81,6 @@ include { REPEATMASKER } from '../subworkflows/local/repeatmasker'
 //
 // MODULE: Installed directly from nf-core/modules
 //
-// include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
-// include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
 include { REPEATMODELER } from '../modules/local/repeatmodeler'
 
 /*
@@ -81,58 +92,77 @@ include { REPEATMODELER } from '../modules/local/repeatmodeler'
 
 workflow GENOMEANNOTATOR {
 
-    ch_versions = Channel.empty()
-    ch_repeats_lib = Channel.empty()
-    ch_genome_rm = Channel.empty()
+
+  ch_versions = Channel.empty()
+  ch_repeats_lib = Channel.empty()
+  ch_genome_rm = Channel.empty()
+
+  if (!ch_repeats_status) {
+    data_location = file(params.repeats_data_path)
+    ch_repeats = repeat_down_workflow(params.taxid,
+                                        data_location)
+  }
 
 
-    //
-    // SUBWORKFLOW: Validate and pre-process the assembly
-    //
-    ASSEMBLY_PREPROCESS(
-        ch_genome
+  //
+  // SUBWORKFLOW: Validate and pre-process the assembly
+  //
+  ASSEMBLY_PREPROCESS(
+      ch_genome
+  )
+  ch_versions = ch_versions.mix(ASSEMBLY_PREPROCESS.out.versions)
+
+
+  //
+  // SUBWORKFLOW: Repeat modelling if this option is requested
+  //
+  if (params.repeat_modeler) {
+     REPEATMODELER(
+        ASSEMBLY_PREPROCESS.out.fasta
+     )
+     ch_repeats = REPEATMODELER.out.fasta.map {m,fasta -> fasta}
+
+     REPEATMASKER(
+        ASSEMBLY_PREPROCESS.out.fasta,
+        ch_repeats,
+        false,
+        ch_rm_db
+     )
+     ch_versions = ch_versions.mix(REPEATMASKER.out.versions)
+     ch_genome_rm = REPEATMASKER.out.fasta
+
+  } else {
+    // otherwise directly mask using the selected repeats
+
+    REPEATMASKER(
+       ASSEMBLY_PREPROCESS.out.fasta,
+       ch_repeats,
+       false,
+       ch_rm_db
     )
-    ch_versions = ch_versions.mix(ASSEMBLY_PREPROCESS.out.versions)
+    ch_versions = ch_versions.mix(REPEATMASKER.out.versions)
+    ch_genome_rm = REPEATMASKER.out.fasta
+
+  }
+
+  // //
+  // // MODULE: Repeatmask the genome; if a repeat species is provided, use it
+  // //         - else the repeats in FASTA format
+  // // NOT REALLY SURE HOW THE REPEAT SPECIES THING WORKS...
+  // if (params.rm_species) {
+  //    REPEATMASKER(
+  //       ASSEMBLY_PREPROCESS.out.fasta,
+  //       ch_repeats,
+  //       params.rm_species,
+  //       ch_rm_db
+  //    )
+  //    ch_versions = ch_versions.mix(REPEATMASKER.out.versions)
+  //    ch_genome_rm = REPEATMASKER.out.fasta
+  // }
 
 
-    //
-    // SUBWORKFLOW: Repeat modelling if no repeats are provided
-    //
-    if (params.repeat_modeler) {
-       REPEATMODELER(
-          ASSEMBLY_PREPROCESS.out.fasta
-       )
-       ch_repeats = REPEATMODELER.out.fasta.map {m,fasta -> fasta}
-    }
-
-    if (!params.rm_lib && !params.rm_species) {
-
-    }
-
-    //
-    // MODULE: Repeatmask the genome; if a repeat species is provided, use it
-    //         - else the repeats in FASTA format
-    if (params.rm_species) {
-       REPEATMASKER(
-          ASSEMBLY_PREPROCESS.out.fasta,
-          ch_repeats,
-          params.rm_species,
-          ch_rm_db
-       )
-       ch_versions = ch_versions.mix(REPEATMASKER.out.versions)
-       ch_genome_rm = REPEATMASKER.out.fasta
-    } else {
-       REPEATMASKER(
-          ASSEMBLY_PREPROCESS.out.fasta,
-          ch_repeats,
-          false,
-          ch_rm_db
-       )
-       ch_versions = ch_versions.mix(REPEATMASKER.out.versions)
-       ch_genome_rm = REPEATMASKER.out.fasta
-    }
-    emit:
-    ch_genome_rm
+  emit:
+  ch_genome_rm
 }
 
 /*
@@ -142,9 +172,6 @@ workflow GENOMEANNOTATOR {
 */
 
 workflow.onComplete {
-    // if (params.email || params.email_on_fail) {
-    //     NfcoreTemplate.email(workflow, params, summary_params, projectDir, log)
-    // }
     NfcoreTemplate.summary(workflow, params, log)
 }
 
