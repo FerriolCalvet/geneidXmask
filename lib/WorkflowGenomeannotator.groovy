@@ -15,8 +15,14 @@ class WorkflowGenomeannotator {
             log.error "Genome assembly not specified with e.g. '--assembly genome.fa'"
             System.exit(1)
         }
+
         if (params.assembly.contains('*')) {
             log.error "This pipeline is not currently designed to annotate multiple assemblies in parallel. Please start separate pipeline runs instead."
+            System.exit(1)
+        }
+
+        if (!params.taxid) {
+            log.error "Taxid of the genome assembly not specified with e.g. '--assembly 9606'\nFind the taxid required by searching for your species here: https://www.ncbi.nlm.nih.gov/taxonomy/"
             System.exit(1)
         }
     }

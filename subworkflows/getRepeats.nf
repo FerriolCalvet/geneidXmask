@@ -22,7 +22,6 @@ process getProtRepeats {
 
     // indicates to use as a container the value indicated in the parameter
     container "ferriolcalvet/geneidx"
-    // container "ferriolcalvet/python-geneid-params"
 
     // indicates to use as a label the value indicated in the parameter
     label (params.LABEL)
@@ -32,7 +31,7 @@ process getProtRepeats {
 
     input:
     val taxid
-    val update // unless you manually add a new parameter file, leave it as False
+    val update // unless you want to look for new repeat files, leave it as False or 0
     path data_path
 
     output:
@@ -239,12 +238,7 @@ process downloadRepFasta {
 
     import requests, os
 
-    # print("${repeats_desc}")
-    # print("${repeats_filename}")
-    # print("${repeats_file_desc}")
-
     info = "${repeats_desc}".strip().split("\\t")
-    # print(info)
 
     rep_filename = info[0]
     rep_filelink = info[1]
@@ -278,9 +272,6 @@ workflow repeat_down_workflow {
 
     main:
     repeat_file_down = getProtRepeats(taxid, 0, data_path) | downloadRepFasta
-
-    // information_prots = file("hi.txt")
-    // (prot_file_name, prot_file_link) = (information_prots =~ /([A-Za-z\d\.\+]+)\s(.*)/)
 
     emit:
     repeat_file_down

@@ -130,9 +130,12 @@ workflow {
     parameter_location = file(params.parameter_path)
     data_location = file(params.repeats_data_path)
 
-    params.repeats_file = repeat_down_workflow(params.taxid,
-                                                data_location)
-
+    // if (params.rm_lib) {
+    //   repeats_file = file(params.rm_lib)
+    // } else {
+    //   repeats_file = repeat_down_workflow(params.taxid,
+    //                                               data_location)
+    // }
 
     uncompressed_genome = GENOMEANNOTATOR()
 

@@ -2,85 +2,36 @@
 
 In this repository we provide a pipeline for the annotation of any genome starting from any raw genome assembly.
 
-The two main steps are an initial genome masking step that was adapted from the nf-core/genomeannotator pipeline, and then a gene prediction step using [GeneidX](https://github.com/guigolab/geneidx).
+The two main steps are an initial genome masking step that was adapted from the nf-core/genomeannotator pipeline, and then a gene prediction step using GeneidX.
 
-We provide a fast and accurate prediction of the protein-coding genes in a genome, taking as input the genome assembly and a set of proteins from closely related species.
-
-This repository contains the implementation of the GeneidX *ab initio* gene prediction method.
-
-In the description here, you can find our preliminary results, a schema of our method and a description of the minimal requirements and commands required for running it.
+Check our repository of [GeneidX](https://github.com/guigolab/geneidx) for more information on the method and a benchmarking with several species.
 
 Stay tuned for an article with detailed descriptions and feel free to [contact us](mailto:ferriol.calvet@crg.eu) if you are trying it and find any problem.
 
 
-## Preliminary results
- The results of an initial benchmarking using vertebrates genomes annotated in Ensembl show that our method is **as accurate as the top *ab initio* gene predictors**, but it is **between 10 and 100 times faster**.
-![Summary of vertebrate benchmark](images/Benchmarking4GitHubX.svg)
-
-
-
-## Running GeneidX
+## Running GeneidX with masking
 Having defined the parameters and ensuring that Nextflow and a container technology.
 
-`nextflow run guigolab/geneidx -with-docker
-                            --genome <GENOME>
-                            --taxid <TAXID>`
+This pipeline requires the uncompressed genome assembly and the taxid of the species to annotate.
+
+`nextflow run ferriolcalvet/geneidXmask -profile docker
+                                        --assembly <GENOME>.fa
+                                        --taxid <TAXID>
+                                        --outdir <OUTPUT_directory>`
 
 
-## Before running GeneidX
+## Before running GeneidXmask
 1. **Make sure ( Docker or Singularity ) and Nextflow are installed in your computer.**
   - [Docker](https://docs.docker.com/engine/install/)
   - [Singularity](https://sylabs.io/guides/3.0/user-guide/installation.html#)
   - [Nextflow](https://www.nextflow.io/docs/latest/getstarted.html#installation)
 
 2. Define the input parameters:
-  - Compressed FASTA file with `.fa.gz` termination.
+  - Uncompressed FASTA file with `.fa` termination.
   - Taxid of the species to annotate or from the closest relative described.
-  - Proteins from closely related species: (choose one of these options)
-      - Provide a compressed FASTA file with the proteins selected.
-      - Let the pipeline download the proteins automatically from UniRef90 (nothing should be provided in this case.)
-  - Tune parameters for the gene prediction process.
-      - Indicate the values for each Geneid parameter.
-      - Let the pipeline select them from the closest pretrained Geneid parameter file. (find the parameters in data/Parameter_files.taxid/)
-      - Find more information here: [GENEID parameter files](https://genome.crg.es/software/geneid/index.html#parameters)
+  - A repeats file can be optionally provided to the program, otherwise these repeats will be automatically chosen.
+  - See [GeneidX](https://github.com/guigolab/geneidx) repository for more parameters that can be tuned.
 
-
-
-## Schema
-Which steps are taking place as part of this pipeline?
-This is a graphical summary, and the specific steps are outlined below.
-![Summary of vertebrate benchmark](images/SchemaWhite.png)
-1. Get the set of proteins to be used for the protein-to-genome alignments.
-2. Get the closest Geneid parameter file to use as source of the parameters not indicated by the user.
-3. Create the protein database for DIAMOND to use it as a source.
-4. Align the provided genome against the database created using DIAMOND BLASTx flavour.
-5. Run the auto-training process:
-  - Use matches to estimate the coding sections, look for open reading frames between stop codons.
-  - Use matches from the same protein to predict the potential introns.
-  - From the sequences of both previous steps compute the initial and transition probability matrices required for the computation of the coding potential of the genome that will be annotated.
-6. Update the parameter file with the parameters indicated in the *params.config* file and also the matrices automatically generated from the protein-DNA matches.
-7. Run Geneid with the new parameter file and the protein-DNA matches from the previous steps as additional evidence.
-This is done in parallel for each independent sequence inside the genome FASTA file, and it consists of the following steps:
-  - Pre-process the matches to join those that overlap and re-score them appropriately.
-  - Run Geneid using the evidence and obtain the GFF3 file.
-  - Remove the files from the internal steps.
-8. Concatenate all the outputs into a single GFF3 file that is sorted by coordinates.
-9. Add information from proteins matching the predicted genes.
-
-
-## DETAILS:
-- **The name of the sequences in the FASTA file cannot contain unusual characters.**
-- **The input genome file must be a gzip-compressed FASTA file. (.fa.gz)**
-- **Auto-train the parameter file always.**
-
-
-## DOING:
--  Optimization of the auto-training additional parameters missing.
-
-
-## PENDING:
-- Tune DIAMOND parameters to make the most of the resources available and to adapt to the capacity of each computer.
-- DIAMOND now uses a lot of RAM memory, we have to adjust the execution to reduce the amount of resources used. This may cause an increase in the execution time.
 
 
 Follow us on Twitter ([@GuigoLab](https://twitter.com/GuigoLab)) for updates in the article describing our method.
