@@ -13,20 +13,22 @@ Stay tuned for an article with detailed descriptions and feel free to [contact u
 Having defined the parameters and ensuring that Nextflow and a container technology.
 
 This pipeline requires the uncompressed genome assembly and the taxid of the species to annotate.
-
-`nextflow run ferriolcalvet/geneidXmask -profile <docker/singularity>
+```
+nextflow run ferriolcalvet/geneidXmask -profile <docker/singularity>
                                         --assembly <GENOME>.fa
                                         --taxid <TAXID>
-                                        --outdir <OUTPUT_directory>`
+                                        --outdir <OUTPUT_directory>
+```
 
 or alternatively, clone the repository and then run it (highly recommended)
-`git clone https://github.com/FerriolCalvet/geneidXmask.git`
-`cd geneidXmask`
-`nextflow run main.nf -profile <docker/singularity>
+```
+git clone https://github.com/FerriolCalvet/geneidXmask.git
+cd geneidXmask
+nextflow run main.nf -profile <docker/singularity>
                       --assembly <GENOME>.fa
                       --taxid <TAXID>
-                      --outdir <OUTPUT_directory>`
-
+                      --outdir <OUTPUT_directory>
+```
 
 ## Before running GeneidXmask
 1. **Make sure ( Docker or Singularity ) and Nextflow are installed in your computer.**
