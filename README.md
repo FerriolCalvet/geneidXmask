@@ -14,10 +14,18 @@ Having defined the parameters and ensuring that Nextflow and a container technol
 
 This pipeline requires the uncompressed genome assembly and the taxid of the species to annotate.
 
-`nextflow run ferriolcalvet/geneidXmask -profile docker
+`nextflow run ferriolcalvet/geneidXmask -profile <docker/singularity>
                                         --assembly <GENOME>.fa
                                         --taxid <TAXID>
                                         --outdir <OUTPUT_directory>`
+
+or alternatively, clone the repository and then run it (highly recommended)
+`git clone https://github.com/FerriolCalvet/geneidXmask.git`
+`cd geneidXmask`
+`nextflow run main.nf -profile <docker/singularity>
+                      --assembly <GENOME>.fa
+                      --taxid <TAXID>
+                      --outdir <OUTPUT_directory>`
 
 
 ## Before running GeneidXmask
@@ -28,9 +36,16 @@ This pipeline requires the uncompressed genome assembly and the taxid of the spe
 
 2. Define the input parameters:
   - Uncompressed FASTA file with `.fa` termination.
-  - Taxid of the species to annotate or from the closest relative described.
+  - Taxid of the species to annotate or from the closest relative with a described taxid.
   - A repeats file can be optionally provided to the program, otherwise these repeats will be automatically chosen.
+  - Also a set of proteins can be provided or otherwise they are automatically chosen.
   - See [GeneidX](https://github.com/guigolab/geneidx) repository for more parameters that can be tuned.
+
+
+## Work in progress
+  - It is recommended to clone the repository and then run the pipeline from there.
+  - So far the output of the predictions is not stored in the path indicated when running the pipeline, but in output/species/{taxid of the species}.
+  - If you are running the pipeline multiple times, it is recommended that you define a directory for downloading the docker/singularity images to avoid having to download them multiple times. See `singularity.cacheDir variable` in `nextflow.config`.
 
 
 
