@@ -19,9 +19,16 @@ This pipeline requires the uncompressed genome assembly and the taxid of the spe
                                         --taxid <TAXID>
                                         --outdir <OUTPUT_directory>`
 
+<<<<<<< HEAD
 or alternatively, clone the repository and then run it (highly recommended)
 `git clone https://github.com/FerriolCalvet/geneidXmask.git`
 `cd geneidXmask`
+=======
+`git clone https://github.com/FerriolCalvet/geneidXmask.git`
+
+`cd geneidXmask`
+
+>>>>>>> 439973d1adb686aa1714b03200b8061b3e66e899
 `nextflow run main.nf -profile <docker/singularity>
                       --assembly <GENOME>.fa
                       --taxid <TAXID>
